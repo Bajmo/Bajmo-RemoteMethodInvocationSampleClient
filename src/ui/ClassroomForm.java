@@ -6,7 +6,7 @@
 package ui;
 
 import dao.IDao;
-import entities.Machine;
+import entities.Classroom;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -17,21 +17,21 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import util.Utils;
 
-public final class MachineForm extends javax.swing.JInternalFrame {
+public class ClassroomForm extends javax.swing.JInternalFrame {
 
     DefaultTableModel model = null;
-    IDao<Machine> dao = null;
+    IDao<Classroom> dao = null;
 
     /**
-     * Creates new form MachineForm
+     * Creates new form ClassroomForm
      */
-    public MachineForm() {
+    public ClassroomForm() {
         initComponents();
-        model = (DefaultTableModel) machineTable.getModel();
+        model = (DefaultTableModel) classroomTable.getModel();
         try {
-            dao = (IDao<Machine>) Naming.lookup(Utils.getUrl() + "/machines");
+            dao = (IDao<Classroom>) Naming.lookup(Utils.getUrl() + "/classrooms");
         } catch (NotBoundException | MalformedURLException | RemoteException e) {
-            Logger.getLogger(MachineForm.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ClassroomForm.class.getName()).log(Level.SEVERE, null, e);
         }
         load();
     }
@@ -39,23 +39,19 @@ public final class MachineForm extends javax.swing.JInternalFrame {
     public void load() {
         try {
             model.setRowCount(0);
-            for (Machine m : dao.findAll()) {
+            for (Classroom c : dao.findAll()) {
                 model.addRow(new Object[]{
-                    m.getId(),
-                    m.getReference(),
-                    m.getBrand(),
-                    m.getPrice()
+                    c.getId(),
+                    c.getLabel()
                 });
             }
         } catch (RemoteException e) {
-            Logger.getLogger(MachineForm.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ClassroomForm.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
     private void resetInputs() {
-        txtReference.setText("");
-        txtBrand.setText("");
-        txtPrice.setText("");
+        txtLabel.setText("");
         lbSelectedId.setText("No selection");
     }
 
@@ -70,11 +66,7 @@ public final class MachineForm extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        txtReference = new javax.swing.JTextField();
-        txtBrand = new javax.swing.JTextField();
-        txtPrice = new javax.swing.JTextField();
+        txtLabel = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         bnAdd = new javax.swing.JButton();
         bnUpdate = new javax.swing.JButton();
@@ -83,48 +75,32 @@ public final class MachineForm extends javax.swing.JInternalFrame {
         lbSelectedId = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        machineTable = new javax.swing.JTable();
+        classroomTable = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
         setIconifiable(true);
-        setTitle("Machine Management");
-        setMinimumSize(null);
+        setTitle("Classroom Management");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Machine Information"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Classroom Information"));
 
-        jLabel1.setText("Reference");
-
-        jLabel2.setText("Brand");
-
-        jLabel3.setText("Price");
+        jLabel1.setText("Label");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtReference)
+            .addComponent(txtLabel)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(txtBrand)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(txtPrice)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
-                .addComponent(txtReference, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtBrand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPrice))
+                .addComponent(txtLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -152,7 +128,7 @@ public final class MachineForm extends javax.swing.JInternalFrame {
         });
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Selected Machine ID");
+        jLabel4.setText("Selected Classroom ID");
 
         lbSelectedId.setBackground(new java.awt.Color(204, 204, 204));
         lbSelectedId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -185,22 +161,22 @@ public final class MachineForm extends javax.swing.JInternalFrame {
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Machine List"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Classroom List"));
 
-        machineTable.setModel(new javax.swing.table.DefaultTableModel(
+        classroomTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Reference", "Brand", "Price"
+                "ID", "Code"
             }
         ));
-        machineTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        classroomTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                machineTableMouseClicked(evt);
+                classroomTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(machineTable);
+        jScrollPane1.setViewportView(classroomTable);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -233,97 +209,77 @@ public final class MachineForm extends javax.swing.JInternalFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.getAccessibleContext().setAccessibleName("Information");
-        jPanel3.getAccessibleContext().setAccessibleName("List");
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void machineTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_machineTableMouseClicked
-        int row = machineTable.getSelectedRow();
-        DefaultTableModel m = (DefaultTableModel) machineTable.getModel();
-        lbSelectedId.setText(m.getValueAt(row, 0).toString());
-        txtReference.setText(m.getValueAt(row, 1).toString());
-        txtBrand.setText(m.getValueAt(row, 2).toString());
-        txtPrice.setText(m.getValueAt(row, 3).toString());
-    }//GEN-LAST:event_machineTableMouseClicked
-
-    private void bnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnDeleteActionPerformed
+    private void bnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnAddActionPerformed
         try {
-            if (lbSelectedId.getText() != null
-                    && !txtReference.getText().isEmpty()
-                    && !txtBrand.getText().isEmpty()
-                    && !txtPrice.getText().isEmpty()) {
-                String reference = txtReference.getText();
-                String brand = txtBrand.getText();
-                double price = Double.parseDouble(txtPrice.getText());
-                Machine m = new Machine(reference, brand, price);
-                m.setId(Integer.parseInt(lbSelectedId.getText()));
-                dao.delete(m);
-                resetInputs();
-                load();
-            } else {
-                JOptionPane.showMessageDialog(this, "You must select a machine first!");
-            }
+            String label = txtLabel.getText();
+            dao.create(new Classroom(label));
+            resetInputs();
+            load();
         } catch (RemoteException e) {
-            Logger.getLogger(MachineForm.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ClassroomForm.class.getName()).log(Level.SEVERE, null, e);
         }
-    }//GEN-LAST:event_bnDeleteActionPerformed
+    }//GEN-LAST:event_bnAddActionPerformed
 
     private void bnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnUpdateActionPerformed
         try {
             if (lbSelectedId.getText() != null
-                    && !txtReference.getText().isEmpty()
-                    && !txtBrand.getText().isEmpty()
-                    && !txtPrice.getText().isEmpty()) {
-                String reference = txtReference.getText();
-                String brand = txtBrand.getText();
-                double price = Double.parseDouble(txtPrice.getText());
-                Machine m = new Machine(reference, brand, price);
-                m.setId(Integer.parseInt(lbSelectedId.getText()));
-                m.setReference(reference);
-                m.setBrand(brand);
-                m.setPrice(price);
-                dao.update(m);
+                    && !txtLabel.getText().isEmpty()) {
+                String label = txtLabel.getText();
+                Classroom c = new Classroom(label);
+                c.setId(Integer.parseInt(lbSelectedId.getText()));
+                c.setLabel(label);
+                dao.update(c);
                 resetInputs();
                 load();
             } else {
-                JOptionPane.showMessageDialog(this, "You must select a machine first! All input fields are required.");
+                JOptionPane.showMessageDialog(this, "You must select a classroom first! All input fields are required.");
             }
         } catch (RemoteException ex) {
-            Logger.getLogger(MachineForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClassroomForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bnUpdateActionPerformed
 
-    private void bnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnAddActionPerformed
+    private void bnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnDeleteActionPerformed
         try {
-            String reference = txtReference.getText();
-            String brand = txtBrand.getText();
-            double price = Double.parseDouble(txtPrice.getText());
-            dao.create(new Machine(reference, brand, price));
-            resetInputs();
-            load();
+            if (lbSelectedId.getText() != null
+                    && !txtLabel.getText().isEmpty()) {
+                String label = txtLabel.getText();
+                Classroom c = new Classroom(label);
+                c.setId(Integer.parseInt(lbSelectedId.getText()));
+                dao.delete(c);
+                resetInputs();
+                load();
+            } else {
+                JOptionPane.showMessageDialog(this, "You must select a classroom first!");
+            }
         } catch (RemoteException e) {
-            Logger.getLogger(MachineForm.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ClassroomForm.class.getName()).log(Level.SEVERE, null, e);
         }
-    }//GEN-LAST:event_bnAddActionPerformed
+    }//GEN-LAST:event_bnDeleteActionPerformed
+
+    private void classroomTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_classroomTableMouseClicked
+        int row = classroomTable.getSelectedRow();
+        DefaultTableModel m = (DefaultTableModel) classroomTable.getModel();
+        lbSelectedId.setText(m.getValueAt(row, 0).toString());
+        txtLabel.setText(m.getValueAt(row, 1).toString());
+    }//GEN-LAST:event_classroomTableMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bnAdd;
     private javax.swing.JButton bnDelete;
     private javax.swing.JButton bnUpdate;
+    private javax.swing.JTable classroomTable;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbSelectedId;
-    private javax.swing.JTable machineTable;
-    private javax.swing.JTextField txtBrand;
-    private javax.swing.JTextField txtPrice;
-    private javax.swing.JTextField txtReference;
+    private javax.swing.JTextField txtLabel;
     // End of variables declaration//GEN-END:variables
 }

@@ -28,21 +28,31 @@ public class BajmoClientUI extends javax.swing.JFrame {
         desktopPane = new javax.swing.JDesktopPane();
         menuBar = new javax.swing.JMenuBar();
         editMenu = new javax.swing.JMenu();
-        machineMenuItem = new javax.swing.JMenuItem();
+        machinesMenuItem = new javax.swing.JMenuItem();
+        classroomsMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         editMenu.setMnemonic('e');
         editMenu.setText("Management");
 
-        machineMenuItem.setMnemonic('t');
-        machineMenuItem.setText("Machines");
-        machineMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        machinesMenuItem.setMnemonic('t');
+        machinesMenuItem.setText("Machines");
+        machinesMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                machineMenuItemActionPerformed(evt);
+                machinesMenuItemActionPerformed(evt);
             }
         });
-        editMenu.add(machineMenuItem);
+        editMenu.add(machinesMenuItem);
+
+        classroomsMenuItem.setMnemonic('t');
+        classroomsMenuItem.setText("Classrooms");
+        classroomsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                classroomsMenuItemActionPerformed(evt);
+            }
+        });
+        editMenu.add(classroomsMenuItem);
 
         menuBar.add(editMenu);
 
@@ -62,12 +72,19 @@ public class BajmoClientUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void machineMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_machineMenuItemActionPerformed
+    private void machinesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_machinesMenuItemActionPerformed
         // TODO add your handling code here:
         MachineForm mf = new MachineForm();
         desktopPane.add(mf);
         mf.show();
-    }//GEN-LAST:event_machineMenuItemActionPerformed
+    }//GEN-LAST:event_machinesMenuItemActionPerformed
+
+    private void classroomsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classroomsMenuItemActionPerformed
+        // TODO add your handling code here:
+        ClassroomForm cf = new ClassroomForm();
+        desktopPane.add(cf);
+        cf.show();
+    }//GEN-LAST:event_classroomsMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -106,9 +123,10 @@ public class BajmoClientUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem classroomsMenuItem;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenu editMenu;
-    private javax.swing.JMenuItem machineMenuItem;
+    private javax.swing.JMenuItem machinesMenuItem;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 
