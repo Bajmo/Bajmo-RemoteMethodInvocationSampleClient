@@ -13,6 +13,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import util.Utils;
 
@@ -49,6 +50,13 @@ public final class MachineForm extends javax.swing.JInternalFrame {
         } catch (RemoteException e) {
             Logger.getLogger(MachineForm.class.getName()).log(Level.SEVERE, null, e);
         }
+    }
+
+    private void resetInputs() {
+        txtReference.setText("");
+        txtBrand.setText("");
+        txtPrice.setText("");
+        lbSelectedId.setText("No selection");
     }
 
     /**
@@ -242,27 +250,63 @@ public final class MachineForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_machineTableMouseClicked
 
     private void bnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnDeleteActionPerformed
-        // TODO add your handling code here:
+        try {
+            if (lbSelectedId.getText() != null
+                    && !txtReference.getText().isEmpty()
+                    && !txtBrand.getText().isEmpty()
+                    && !txtPrice.getText().isEmpty()) {
+                String reference = txtReference.getText();
+                String brand = txtBrand.getText();
+                double price = Double.parseDouble(txtPrice.getText());
+                Machine m = new Machine(reference, brand, price);
+                m.setId(Integer.parseInt(lbSelectedId.getText()));
+                dao.delete(m);
+                resetInputs();
+                load();
+            } else {
+                JOptionPane.showMessageDialog(this, "You must select a machine first!");
+            }
+        } catch (RemoteException e) {
+            Logger.getLogger(MachineForm.class.getName()).log(Level.SEVERE, null, e);
+        }
     }//GEN-LAST:event_bnDeleteActionPerformed
 
     private void bnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnUpdateActionPerformed
-        // TODO add your handling code here:
+        try {
+            if (lbSelectedId.getText() != null
+                    && !txtReference.getText().isEmpty()
+                    && !txtBrand.getText().isEmpty()
+                    && !txtPrice.getText().isEmpty()) {
+                String reference = txtReference.getText();
+                String brand = txtBrand.getText();
+                double price = Double.parseDouble(txtPrice.getText());
+                Machine m = new Machine(reference, brand, price);
+                m.setId(Integer.parseInt(lbSelectedId.getText()));
+                m.setReference(reference);
+                m.setBrand(brand);
+                m.setPrice(price);
+                dao.update(m);
+                resetInputs();
+                load();
+            } else {
+                JOptionPane.showMessageDialog(this, "You must select a machine first! All input fields are required.");
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(MachineForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_bnUpdateActionPerformed
 
     private void bnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnAddActionPerformed
         try {
-            // TODO add your handling code here:
-
-            String ref = txtReference.getText();
-            String marque = txtBrand.getText();
-            double prix = Double.parseDouble(txtPrice.getText());
-            dao.create(new Machine(ref, marque, prix));
+            String reference = txtReference.getText();
+            String brand = txtBrand.getText();
+            double price = Double.parseDouble(txtPrice.getText());
+            dao.create(new Machine(reference, brand, price));
             load();
         } catch (RemoteException e) {
             Logger.getLogger(MachineForm.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_bnAddActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bnAdd;
