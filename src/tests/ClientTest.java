@@ -18,7 +18,7 @@ public class ClientTest {
 
     public static void main(String[] args) {
         try {
-            IDao<Machine> dao = (IDao<Machine>) Naming.lookup("rmi://localhost:1099/dao");
+            IDao<Machine> dao = (IDao<Machine>) Naming.lookup("rmi://localhost:1099/machines");
             dao.create(new Machine("S23", "HP", 2000));
             dao.create(new Machine("S63", "LENOVO", 3000));
             dao.create(new Machine("S83", "HP", 2000));

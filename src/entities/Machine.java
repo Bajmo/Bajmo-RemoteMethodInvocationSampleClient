@@ -8,6 +8,7 @@ package entities;
 import java.io.Serializable;
 
 public class Machine implements Serializable {
+
     private int id;
     private String reference;
     private String brand;

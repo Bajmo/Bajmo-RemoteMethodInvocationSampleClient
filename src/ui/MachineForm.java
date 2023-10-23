@@ -29,7 +29,7 @@ public final class MachineForm extends javax.swing.JInternalFrame {
         initComponents();
         model = (DefaultTableModel) machineTable.getModel();
         try {
-            dao = (IDao<Machine>) Naming.lookup(Utils.getUrl() + "/dao");
+            dao = (IDao<Machine>) Naming.lookup(Utils.getUrl() + "/machines");
         } catch (NotBoundException | MalformedURLException | RemoteException e) {
             Logger.getLogger(MachineForm.class.getName()).log(Level.SEVERE, null, e);
         }
